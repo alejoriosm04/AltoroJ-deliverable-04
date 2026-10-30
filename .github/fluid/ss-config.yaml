@@ -1,0 +1,8 @@
+# Configuración del escáner de secretos.
+# Según la documentación, en este archivo solo aplican las claves ss y output.
+output:
+  file_path: ss-results.sarif
+  format: SARIF
+ss:
+  include:
+    - .

@@ -1,0 +1,9 @@
+namespace: altoroj
+language: ES
+strict: false            # solo informa, no rompe el build
+output:
+  file_path: sast-results.sarif
+  format: SARIF          # sin CSV en este paso
+sast:
+  include:
+    - .
