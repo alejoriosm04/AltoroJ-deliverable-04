@@ -1,0 +1,9 @@
+# Configuración del escáner de secretos.
+# Según la documentación, en este archivo solo aplican las claves ss y output.
+strict: true             # probar; si el job queda en verde, el workflow lo fuerza con vulnerabilities_found
+output:
+  file_path: ss-results.csv
+  format: CSV
+ss:
+  include:
+    - .

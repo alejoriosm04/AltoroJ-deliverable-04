@@ -1,0 +1,9 @@
+namespace: altoroj
+language: ES
+strict: true             # sale con código 1 si hay hallazgos
+output:
+  file_path: sast-results.csv
+  format: CSV
+sast:
+  include:
+    - .

@@ -1,0 +1,59 @@
+name: Paso 3 - CSV y romper el build
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: fluidattacks/sast-action@1.3.0
+        id: sast
+        with:
+          scan_config_path: .github/fluid/sast-config.yaml
+          scanner_mode: full
+      - name: Subir CSV
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sast-results
+          path: sast-results.csv
+  sca:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: fluidattacks/sca-action@1.2.0
+        id: sca
+        with:
+          scan_config_path: .github/fluid/sca-config.yaml
+          scanner_mode: full
+      - name: Subir CSV
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sca-results
+          path: sca-results.csv
+  secretos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: fluidattacks/ss-action@0.3.0
+        id: ss
+        with:
+          scan_config_path: .github/fluid/ss-config.yaml
+          scanner_mode: full
+      - name: Subir CSV
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ss-results
+          path: ss-results.csv
+      - name: Romper el build si hay secretos
+        if: steps.ss.outputs.vulnerabilities_found == 'true'
+        run: exit 1
