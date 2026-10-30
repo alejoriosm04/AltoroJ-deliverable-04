@@ -1,0 +1,10 @@
+namespace: altoroj
+language: ES
+strict: true             # sale con código 1 si hay hallazgos
+strictness_threshold: high
+output:
+  file_path: sca-results.csv
+  format: CSV
+sca:
+  include:
+    - .
